@@ -13,6 +13,7 @@ permissions:
 jobs:
   code-review:
     runs-on: ubuntu-latest
+
     outputs:
       branch_valid: ${{ steps.validate-conditions.outputs.branch_valid }}
       title_valid: ${{ steps.validate-conditions.outputs.title_valid }}
@@ -20,14 +21,16 @@ jobs:
       token_valid: ${{ steps.validate-conditions.outputs.token_valid }}
       yaml_exec_enabled: ${{ steps.validate-conditions.outputs.yaml_exec_enabled }}
       all_valid: ${{ steps.validate-conditions.outputs.all_valid }}
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
           persist-credentials: true
+          allow-unsafe-pr-checkout: true
 
       - name: Setup Python
         uses: actions/setup-python@v4
